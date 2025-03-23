@@ -43,7 +43,11 @@ const Hero3D = () => {
               shadow-mapSize={[2048, 2048]} 
             />
             <Suspense fallback={null}>
-              <Car3DModel position={[0, -1, 0]} />
+              <Car3DModel 
+                position={[0, -1, 0]} 
+                color="#FF0000" 
+                rotationSpeed={0.005} 
+              />
               <Environment preset="city" />
             </Suspense>
             <OrbitControls 

@@ -30,16 +30,19 @@ const CarConfigurator = () => {
           <Canvas shadows>
             <Suspense fallback={null}>
               <Stage environment="city" intensity={0.5}>
-                <Car3DModel rotationSpeed={0} />
+                <Car3DModel 
+                  rotationSpeed={0.005} 
+                  color={activeColor.hex} 
+                />
               </Stage>
               <Environment preset="city" />
             </Suspense>
             <OrbitControls
               autoRotate
               autoRotateSpeed={0.5}
-              enableZoom={false}
+              enableZoom={true}
               enablePan={false}
-              minPolarAngle={Math.PI / 3}
+              minPolarAngle={Math.PI / 4}
               maxPolarAngle={Math.PI / 2}
             />
           </Canvas>
