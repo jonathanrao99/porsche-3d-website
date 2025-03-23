@@ -17,7 +17,7 @@ export function Car3DModel({
   rotationSpeed = 0.003,
   position = [0, 0, 0],
   scale = [1, 1, 1],
-  modelPath = '/porsche_911_gt3_rs.glb'
+  modelPath = '/wheel.glb' // Changed to use an existing model in public folder
 }: Car3DModelProps) {
   const group = useRef<Group>(null);
   const [hovered, setHovered] = useState(false);
@@ -25,7 +25,7 @@ export function Car3DModel({
   const [modelError, setModelError] = useState(false);
   
   // Load the 3D model with error handling
-  // We've updated the useGLTF call to properly handle errors
+  // We use the silenceErrors parameter (second param) and a custom error handler (fourth param)
   const { scene } = useGLTF(modelPath, true, undefined, (error) => {
     console.error("Error loading 3D model:", error);
     setModelError(true);
@@ -170,7 +170,7 @@ export function Car3DModel({
 // Preload the model to improve performance
 // We're using try-catch here to prevent errors during preloading
 try {
-  useGLTF.preload('/porsche_911_gt3_rs.glb');
+  useGLTF.preload('/wheel.glb');
 } catch (error) {
   console.warn("Failed to preload model:", error);
 }

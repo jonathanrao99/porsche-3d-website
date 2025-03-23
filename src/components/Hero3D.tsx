@@ -1,3 +1,4 @@
+
 import { useState, useEffect, Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, PerspectiveCamera, Environment, SpotLight } from '@react-three/drei';
@@ -47,6 +48,7 @@ const Hero3D = () => {
                 color="#FF0000" 
                 rotationSpeed={0.005} 
                 scale={[1, 1, 1]}
+                modelPath="/wheel.glb"
               />
               <Environment preset="city" />
             </Suspense>
