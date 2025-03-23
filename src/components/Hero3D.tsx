@@ -1,4 +1,3 @@
-
 import { useState, useEffect, Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, PerspectiveCamera, Environment, SpotLight } from '@react-three/drei';
@@ -9,7 +8,6 @@ const Hero3D = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   
   useEffect(() => {
-    // Set a timeout to simulate loading and ensure UI transitions smoothly
     const timer = setTimeout(() => {
       setIsLoaded(true);
     }, 800);
@@ -19,10 +17,8 @@ const Hero3D = () => {
   
   return (
     <div className="relative h-screen w-full overflow-hidden bg-porsche-black">
-      {/* Background effect */}
       <div className="absolute inset-0 bg-hero-pattern z-0"></div>
       
-      {/* 3D Scene Container */}
       <div className="relative w-full h-full">
         <div 
           className={cn(
@@ -48,7 +44,6 @@ const Hero3D = () => {
                 color="#FF0000" 
                 rotationSpeed={0.005} 
                 scale={[1, 1, 1]}
-                modelPath="/wheel.glb"
               />
               <Environment preset="city" />
             </Suspense>
@@ -64,7 +59,6 @@ const Hero3D = () => {
           </Canvas>
         </div>
         
-        {/* Loading state */}
         {!isLoaded && (
           <div className="absolute inset-0 flex flex-col justify-center items-center text-white">
             <svg className="animate-spin h-10 w-10 mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -76,7 +70,6 @@ const Hero3D = () => {
         )}
       </div>
       
-      {/* Heading text */}
       <div className="absolute top-1/2 left-12 transform -translate-y-1/2 z-10 max-w-xl text-white animate-fade-in">
         <span className="inline-block text-sm uppercase tracking-widest mb-2 text-porsche-red">The Ultimate Expression</span>
         <h1 className="text-5xl md:text-6xl font-bold mb-4">Porsche 911 GT3 RS</h1>
@@ -91,7 +84,6 @@ const Hero3D = () => {
         </div>
       </div>
       
-      {/* Scroll prompt */}
       <div className="scroll-prompt text-white">
         <p className="text-sm mb-2 opacity-70">Scroll to explore</p>
         <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

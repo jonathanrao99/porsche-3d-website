@@ -1,4 +1,3 @@
-
 import { Suspense, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Stage, Environment } from '@react-three/drei';
@@ -35,7 +34,6 @@ const CarConfigurator = () => {
                   color={activeColor.hex} 
                   position={[0, 0, 0]}
                   scale={[1, 1, 1]}
-                  modelPath="/wheel.glb"
                 />
               </Stage>
               <Environment preset="city" />
