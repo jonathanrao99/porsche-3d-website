@@ -25,8 +25,8 @@ export function Car3DModel({
   const [modelError, setModelError] = useState(false);
   
   // Load the 3D model with error handling
-  // We need to use useEffect for error handling instead of try/catch at the top level
-  const { scene } = useGLTF(modelPath, undefined, (error) => {
+  // We've updated the useGLTF call to properly handle errors
+  const { scene } = useGLTF(modelPath, true, undefined, (error) => {
     console.error("Error loading 3D model:", error);
     setModelError(true);
   });
@@ -168,6 +168,11 @@ export function Car3DModel({
 }
 
 // Preload the model to improve performance
-useGLTF.preload('/porsche_911_gt3_rs.glb');
+// We're using try-catch here to prevent errors during preloading
+try {
+  useGLTF.preload('/porsche_911_gt3_rs.glb');
+} catch (error) {
+  console.warn("Failed to preload model:", error);
+}
 
 export default Car3DModel;
