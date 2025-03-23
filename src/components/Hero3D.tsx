@@ -1,14 +1,15 @@
 
-import { useEffect, useRef, useState } from 'react';
+import { useState, useEffect, Suspense } from 'react';
+import { Canvas } from '@react-three/fiber';
+import { OrbitControls, PerspectiveCamera, Environment, SpotLight } from '@react-three/drei';
 import { cn } from "@/lib/utils";
+import Car3DModel from './Car3DModel';
 
 const Hero3D = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   
   useEffect(() => {
-    // Simulate 3D model loading
+    // Set a timeout to simulate loading and ensure UI transitions smoothly
     const timer = setTimeout(() => {
       setIsLoaded(true);
     }, 800);
@@ -16,47 +17,44 @@ const Hero3D = () => {
     return () => clearTimeout(timer);
   }, []);
   
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!containerRef.current) return;
-    
-    const { clientX, clientY } = e;
-    const { left, top, width, height } = containerRef.current.getBoundingClientRect();
-    
-    // Calculate relative mouse position (-1 to 1)
-    const x = (clientX - left) / width * 2 - 1;
-    const y = (clientY - top) / height * 2 - 1;
-    
-    setMousePosition({ x, y });
-  };
-  
   return (
     <div className="relative h-screen w-full overflow-hidden bg-porsche-black">
       {/* Background effect */}
       <div className="absolute inset-0 bg-hero-pattern z-0"></div>
       
       {/* 3D Scene Container */}
-      <div 
-        ref={containerRef}
-        className="relative w-full h-full flex justify-center items-center"
-        onMouseMove={handleMouseMove}
-      >
-        {/* Placeholder for actual Three.js in future implementation */}
+      <div className="relative w-full h-full">
         <div 
           className={cn(
-            "relative perspective-container w-full h-full flex justify-center items-center",
+            "relative w-full h-full",
             isLoaded ? "opacity-100" : "opacity-0",
             "transition-opacity duration-1000"
           )}
         >
-          <img
-            src="https://www.stuttcars.com/wp-content/uploads/2022/08/2023-porsche-911-gt3-rs-8-2048x1152.jpg"
-            alt="Porsche GT3 RS"
-            className="max-w-5xl w-full object-contain animate-float"
-            style={{
-              transform: `rotateY(${mousePosition.x * 5}deg) rotateX(${-mousePosition.y * 5}deg)`,
-              transition: 'transform 0.1s ease-out'
-            }}
-          />
+          <Canvas shadows dpr={[1, 2]} camera={{ position: [0, 2, 5], fov: 50 }}>
+            <fog attach="fog" args={['#000', 5, 15]} />
+            <ambientLight intensity={0.5} />
+            <SpotLight 
+              position={[10, 10, 10]} 
+              angle={0.3} 
+              penumbra={1} 
+              intensity={1} 
+              castShadow 
+              shadow-mapSize={[2048, 2048]} 
+            />
+            <Suspense fallback={null}>
+              <Car3DModel position={[0, -1, 0]} />
+              <Environment preset="city" />
+            </Suspense>
+            <OrbitControls 
+              autoRotate
+              autoRotateSpeed={0.5}
+              enableZoom={false}
+              enablePan={false}
+              minPolarAngle={Math.PI / 3}
+              maxPolarAngle={Math.PI / 2}
+            />
+          </Canvas>
         </div>
         
         {/* Loading state */}

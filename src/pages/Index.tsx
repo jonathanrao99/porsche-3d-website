@@ -3,7 +3,9 @@ import { useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import Hero3D from '../components/Hero3D';
 import Specifications from '../components/Specifications';
+import SpecificationDetails from '../components/SpecificationDetails';
 import DesignGallery from '../components/DesignGallery';
+import CarConfigurator from '../components/CarConfigurator';
 import Footer from '../components/Footer';
 
 const Index = () => {
@@ -35,7 +37,9 @@ const Index = () => {
       <Navbar />
       <Hero3D />
       <Specifications />
+      <SpecificationDetails />
       <DesignGallery />
+      <CarConfigurator />
       <section id="experience" className="py-24 px-6 md:px-12 bg-white">
         <div className="max-w-7xl mx-auto text-center">
           <span className="uppercase tracking-widest text-sm text-porsche-red">Driving Perfection</span>
