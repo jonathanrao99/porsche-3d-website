@@ -48,6 +48,7 @@ const Hero3D = () => {
                 color="#FF0000" 
                 rotationSpeed={0.005} 
                 scale={[1, 1, 1]}
+                modelPath="/porsche_911_gt3_rs.glb"
               />
               <Environment preset="city" />
             </Suspense>

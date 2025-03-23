@@ -3,23 +3,71 @@ import { Suspense, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, useGLTF, Environment, PresentationControls } from '@react-three/drei';
 
-// Car parts models
+// Car parts models with fallbacks for when models fail to load
 const EnginePart = () => {
-  // Replace with actual engine GLTF model when available
-  const { scene } = useGLTF('/engine.glb');
-  return <primitive object={scene} scale={1.2} position={[0, 0, 0]} />;
+  try {
+    const { scene } = useGLTF('/engine.glb');
+    return <primitive object={scene} scale={1.2} position={[0, 0, 0]} />;
+  } catch (error) {
+    console.error("Failed to load engine model:", error);
+    // Fallback engine representation using primitives
+    return (
+      <group>
+        <mesh position={[0, 0, 0]}>
+          <cylinderGeometry args={[1, 1, 1.5, 16]} />
+          <meshStandardMaterial color="#333" metalness={0.8} roughness={0.2} />
+        </mesh>
+        <mesh position={[0, 0.8, 0]}>
+          <boxGeometry args={[2, 0.3, 1.5]} />
+          <meshStandardMaterial color="#555" metalness={0.7} roughness={0.3} />
+        </mesh>
+      </group>
+    );
+  }
 };
 
 const WheelPart = () => {
-  // Replace with actual wheel GLTF model when available
-  const { scene } = useGLTF('/wheel.glb');
-  return <primitive object={scene} scale={1.2} position={[0, 0, 0]} />;
+  try {
+    const { scene } = useGLTF('/wheel.glb');
+    return <primitive object={scene} scale={1.2} position={[0, 0, 0]} />;
+  } catch (error) {
+    console.error("Failed to load wheel model:", error);
+    // Fallback wheel representation
+    return (
+      <group>
+        <mesh position={[0, 0, 0]} rotation={[Math.PI / 2, 0, 0]}>
+          <torusGeometry args={[1, 0.3, 16, 32]} />
+          <meshStandardMaterial color="#111" metalness={0.5} roughness={0.2} />
+        </mesh>
+        <mesh position={[0, 0, 0]} rotation={[Math.PI / 2, 0, 0]}>
+          <cylinderGeometry args={[0.7, 0.7, 0.5, 32]} />
+          <meshStandardMaterial color="#777" metalness={0.8} roughness={0.1} />
+        </mesh>
+      </group>
+    );
+  }
 };
 
 const BrakePart = () => {
-  // Replace with actual brake GLTF model when available
-  const { scene } = useGLTF('/brake.glb');
-  return <primitive object={scene} scale={1.2} position={[0, 0, 0]} />;
+  try {
+    const { scene } = useGLTF('/brake.glb');
+    return <primitive object={scene} scale={1.2} position={[0, 0, 0]} />;
+  } catch (error) {
+    console.error("Failed to load brake model:", error);
+    // Fallback brake representation
+    return (
+      <group>
+        <mesh position={[0, 0, 0]} rotation={[Math.PI / 2, 0, 0]}>
+          <cylinderGeometry args={[1.2, 1.2, 0.15, 32]} />
+          <meshStandardMaterial color="#333" metalness={0.6} roughness={0.3} />
+        </mesh>
+        <mesh position={[0, 0, 0.08]} rotation={[Math.PI / 2, 0, 0]}>
+          <cylinderGeometry args={[0.8, 0.8, 0.3, 32]} />
+          <meshStandardMaterial color="#800" metalness={0.7} roughness={0.2} />
+        </mesh>
+      </group>
+    );
+  }
 };
 
 const SpecificationsDetail = () => {
