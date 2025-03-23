@@ -33,6 +33,8 @@ const CarConfigurator = () => {
                 <Car3DModel 
                   rotationSpeed={0.005} 
                   color={activeColor.hex} 
+                  position={[0, 0, 0]}
+                  scale={[1, 1, 1]}
                 />
               </Stage>
               <Environment preset="city" />

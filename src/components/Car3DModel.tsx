@@ -1,10 +1,21 @@
 
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Group, MeshStandardMaterial } from 'three';
-import { useGLTF } from '@react-three/drei';
 
-export function Car3DModel({ color = '#BFBFBF', rotationSpeed = 0.003, ...props }) {
+interface Car3DModelProps {
+  color?: string;
+  rotationSpeed?: number;
+  position?: [number, number, number];
+  scale?: [number, number, number];
+}
+
+export function Car3DModel({ 
+  color = '#BFBFBF', 
+  rotationSpeed = 0.003,
+  position = [0, 0, 0],
+  scale = [1, 1, 1]
+}: Car3DModelProps) {
   const group = useRef<Group>(null);
   const [hovered, setHovered] = useState(false);
   
@@ -16,7 +27,7 @@ export function Car3DModel({ color = '#BFBFBF', rotationSpeed = 0.003, ...props 
   });
 
   // Animate the car rotation
-  useFrame((state) => {
+  useFrame(() => {
     if (group.current) {
       group.current.rotation.y += rotationSpeed;
     }
@@ -25,8 +36,8 @@ export function Car3DModel({ color = '#BFBFBF', rotationSpeed = 0.003, ...props 
   return (
     <group 
       ref={group} 
-      {...props} 
-      dispose={null}
+      position={position} 
+      scale={scale}
       onPointerOver={() => setHovered(true)}
       onPointerOut={() => setHovered(false)}
     >

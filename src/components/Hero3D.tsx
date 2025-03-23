@@ -31,7 +31,7 @@ const Hero3D = () => {
             "transition-opacity duration-1000"
           )}
         >
-          <Canvas shadows dpr={[1, 2]} camera={{ position: [0, 2, 5], fov: 50 }}>
+          <Canvas shadows dpr={[1, 2]}>
             <fog attach="fog" args={['#000', 5, 15]} />
             <ambientLight intensity={0.5} />
             <SpotLight 
@@ -47,6 +47,7 @@ const Hero3D = () => {
                 position={[0, -1, 0]} 
                 color="#FF0000" 
                 rotationSpeed={0.005} 
+                scale={[1, 1, 1]}
               />
               <Environment preset="city" />
             </Suspense>
@@ -58,6 +59,7 @@ const Hero3D = () => {
               minPolarAngle={Math.PI / 3}
               maxPolarAngle={Math.PI / 2}
             />
+            <PerspectiveCamera position={[0, 2, 5]} fov={50} makeDefault />
           </Canvas>
         </div>
         
