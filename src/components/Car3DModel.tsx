@@ -1,8 +1,8 @@
 
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { useGLTF } from '@react-three/drei';
-import { Group } from 'three';
+import { Group, Mesh } from 'three';
 
 interface Car3DModelProps {
   color?: string;
@@ -21,23 +21,31 @@ export function Car3DModel({
 }: Car3DModelProps) {
   const group = useRef<Group>(null);
   const [hovered, setHovered] = useState(false);
+  const [modelLoaded, setModelLoaded] = useState(false);
+  const [modelError, setModelError] = useState(false);
   
-  // Load the 3D model
-  const { scene } = useGLTF(modelPath);
-  
-  // Clone the scene to avoid modifying the cached original
-  const model = scene.clone();
-  
-  // Find all meshes in the model and apply the color if they're part of the car body
-  if (model) {
-    model.traverse((child: any) => {
-      // Apply color to specific parts that should change color (like the car body)
-      // You might need to adjust this based on your specific model's structure
-      if (child.isMesh && child.material && 
-         (child.name.includes('body') || child.name.includes('Body') || child.name.includes('exterior'))) {
-        child.material.color.set(color);
-      }
-    });
+  // Attempt to load the 3D model with error handling
+  let model: any;
+  try {
+    const { scene } = useGLTF(modelPath);
+    model = scene.clone();
+    
+    // Update material colors for any meshes in the model
+    if (model && !modelError) {
+      model.traverse((child: any) => {
+        if (child.isMesh && child.material && 
+          (child.name.includes('body') || child.name.includes('Body') || child.name.includes('exterior'))) {
+          child.material.color.set(color);
+        }
+      });
+    }
+
+    useEffect(() => {
+      setModelLoaded(true);
+    }, []);
+  } catch (error) {
+    console.error("Error loading 3D model:", error);
+    setModelError(true);
   }
   
   // Animate the car rotation
@@ -51,18 +59,18 @@ export function Car3DModel({
     <group 
       ref={group} 
       position={position} 
-      scale={scale}
+      scale={hovered ? [scale[0] * 1.03, scale[1] * 1.03, scale[2] * 1.03] : scale}
       onPointerOver={() => setHovered(true)}
       onPointerOut={() => setHovered(false)}
     >
-      {/* If we have a real model, use it */}
-      {model && <primitive object={model} scale={hovered ? 1.03 : 1} />}
+      {/* Render the model if successfully loaded */}
+      {model && !modelError && <primitive object={model} />}
       
-      {/* Fallback if model fails to load */}
-      {!model && (
+      {/* Fallback car representation using primitives when model fails to load */}
+      {(!model || modelError) && (
         <>
           {/* Car body */}
-          <mesh position={[0, 0, 0]} scale={hovered ? [1.03, 1.03, 1.03] : [1, 1, 1]}>
+          <mesh position={[0, 0, 0]}>
             <boxGeometry args={[4, 1, 2]} />
             <meshStandardMaterial color={color} metalness={0.6} roughness={0.1} />
           </mesh>
@@ -138,8 +146,5 @@ export function Car3DModel({
     </group>
   );
 }
-
-// Pre-load the model
-useGLTF.preload('/porsche_911_gt3_rs.glb');
 
 export default Car3DModel;

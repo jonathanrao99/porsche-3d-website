@@ -35,7 +35,6 @@ const CarConfigurator = () => {
                   color={activeColor.hex} 
                   position={[0, 0, 0]}
                   scale={[1, 1, 1]}
-                  modelPath="/porsche_911_gt3_rs.glb"
                 />
               </Stage>
               <Environment preset="city" />
