@@ -1,4 +1,3 @@
-
 import { useState, useEffect, Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, PerspectiveCamera, Environment, SpotLight } from '@react-three/drei';

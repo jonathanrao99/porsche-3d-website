@@ -24,13 +24,40 @@ export function Car3DModel({
   const [modelLoaded, setModelLoaded] = useState(false);
   const [modelError, setModelError] = useState(false);
   
-  // Attempt to load the 3D model with error handling
-  let model: any;
-  try {
-    const { scene } = useGLTF(modelPath);
-    model = scene.clone();
-    
-    // Update material colors for any meshes in the model
+  // Load the 3D model with error handling
+  // We need to use useEffect for error handling instead of try/catch at the top level
+  const { scene } = useGLTF(modelPath, undefined, (error) => {
+    console.error("Error loading 3D model:", error);
+    setModelError(true);
+  });
+  
+  // Clone the model in a useEffect to avoid React state issues
+  const [model, setModel] = useState<any>(null);
+  
+  useEffect(() => {
+    try {
+      if (scene && !modelError) {
+        const clonedModel = scene.clone();
+        
+        // Update material colors for any meshes in the model
+        clonedModel.traverse((child: any) => {
+          if (child.isMesh && child.material && 
+            (child.name.includes('body') || child.name.includes('Body') || child.name.includes('exterior'))) {
+            child.material.color.set(color);
+          }
+        });
+        
+        setModel(clonedModel);
+        setModelLoaded(true);
+      }
+    } catch (error) {
+      console.error("Error processing 3D model:", error);
+      setModelError(true);
+    }
+  }, [scene, color, modelError]);
+  
+  // Update color when it changes
+  useEffect(() => {
     if (model && !modelError) {
       model.traverse((child: any) => {
         if (child.isMesh && child.material && 
@@ -39,14 +66,7 @@ export function Car3DModel({
         }
       });
     }
-
-    useEffect(() => {
-      setModelLoaded(true);
-    }, []);
-  } catch (error) {
-    console.error("Error loading 3D model:", error);
-    setModelError(true);
-  }
+  }, [model, color, modelError]);
   
   // Animate the car rotation
   useFrame(() => {
@@ -146,5 +166,8 @@ export function Car3DModel({
     </group>
   );
 }
+
+// Preload the model to improve performance
+useGLTF.preload('/porsche_911_gt3_rs.glb');
 
 export default Car3DModel;

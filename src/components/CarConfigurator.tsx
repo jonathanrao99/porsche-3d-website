@@ -1,4 +1,3 @@
-
 import { Suspense, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Stage, Environment } from '@react-three/drei';
