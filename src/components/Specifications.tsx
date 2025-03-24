@@ -86,15 +86,16 @@ const Specifications = () => {
             <div 
               key={spec.title}
               className={cn(
-                "spec-card bg-white shadow rounded-lg",
-                "transform transition-all duration-500 ease-out",
+                "spec-card bg-white shadow rounded-lg p-6",
+                "transform transition-all duration-500 ease-out hover:scale-105 hover:bg-gray-50",
+                "cursor-pointer",
                 visibleItems.includes(index) 
                   ? "opacity-100 translate-y-0" 
                   : "opacity-0 translate-y-16"
               )}
             >
               <div className="flex items-start">
-                <div className="mr-4 p-3 bg-porsche-red text-white rounded-lg">
+                <div className="mr-4 p-3 bg-porsche-red text-white rounded-lg transition-colors group-hover:bg-porsche-gray">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={spec.icon} />
                   </svg>

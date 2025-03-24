@@ -1,3 +1,4 @@
+
 import { Suspense, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Stage, Environment } from '@react-three/drei';
@@ -15,7 +16,7 @@ const CarConfigurator = () => {
   const [activeColor, setActiveColor] = useState(colorOptions[0]);
 
   return (
-    <section className="py-24 px-6 md:px-12 bg-gray-50">
+    <section className="py-24 px-6 md:px-12 bg-gradient-to-b from-gray-50 to-white">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
           <span className="text-porsche-red uppercase tracking-widest text-sm">Make It Yours</span>
@@ -25,7 +26,7 @@ const CarConfigurator = () => {
           </p>
         </div>
         
-        <div className="h-96 mb-8 bg-gradient-to-b from-white to-gray-100 rounded-xl overflow-hidden shadow-lg">
+        <div className="h-[500px] mb-12 bg-gradient-to-b from-white to-gray-100 rounded-xl overflow-hidden shadow-lg">
           <Canvas shadows>
             <Suspense fallback={null}>
               <Stage environment="city" intensity={0.5}>
@@ -49,18 +50,18 @@ const CarConfigurator = () => {
           </Canvas>
         </div>
         
-        <div className="flex justify-center gap-4 flex-wrap">
+        <div className="flex justify-center gap-6 flex-wrap">
           {colorOptions.map((color) => (
             <button
               key={color.id}
               onClick={() => setActiveColor(color)}
-              className="flex flex-col items-center transition-transform hover:scale-105"
+              className="flex flex-col items-center transition-all hover:scale-105 group"
             >
               <div 
-                className={`w-16 h-16 rounded-full mb-2 border-2 ${activeColor.id === color.id ? 'border-porsche-red' : 'border-transparent'}`}
+                className={`w-16 h-16 rounded-full mb-2 border-2 ${activeColor.id === color.id ? 'border-porsche-red' : 'border-transparent'} transition-all duration-300 hover:shadow-md`}
                 style={{ backgroundColor: color.hex }}
               />
-              <span className={`text-sm ${activeColor.id === color.id ? 'font-bold' : ''}`}>
+              <span className={`text-sm transition-all duration-300 ${activeColor.id === color.id ? 'font-bold' : ''}`}>
                 {color.name}
               </span>
             </button>

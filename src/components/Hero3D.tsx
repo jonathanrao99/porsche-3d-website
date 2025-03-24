@@ -1,3 +1,4 @@
+
 import { useState, useEffect, Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, PerspectiveCamera, Environment, SpotLight } from '@react-three/drei';
@@ -82,13 +83,6 @@ const Hero3D = () => {
             Specifications
           </button>
         </div>
-      </div>
-      
-      <div className="scroll-prompt text-white">
-        <p className="text-sm mb-2 opacity-70">Scroll to explore</p>
-        <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-        </svg>
       </div>
     </div>
   );
